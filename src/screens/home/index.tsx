@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Alert, FlatList, Image, SafeAreaView, Text, TextInput, TouchableOpacity, View} from "react-native";
+import { Alert, Button, FlatList, Image, SafeAreaView, Text, TextInput, TouchableOpacity, View} from "react-native";
 import { Empty } from "../../components/Empty";
 import { Header } from "../../components/Header";
 import { ListHeader } from "../../components/ListHeader";
@@ -64,6 +64,23 @@ export function Home(){
     }))
   }
 
+  function handleClearAllTasks(){
+    Alert.alert("Limpar tudo", "Deseja apagar todas as tarefas?", 
+    [
+      {
+        text: 'Apgar tudo!',
+        onPress: () => setTaskList([])
+      },
+      {
+        text: 'Cancelar'
+      }
+    ],
+    {
+      cancelable: true
+    }
+    )
+  }
+
   return(
     <SafeAreaView style={styles.container}>
       <Header />
@@ -95,42 +112,33 @@ export function Home(){
         />
 
         <View style={styles.listContainer}>
+          {taskList.length > 0 && 
+            <TouchableOpacity 
+              style={styles.cleanAllTasks}
+              onPress={handleClearAllTasks}
+            >
+              <Text style={styles.cleanTaskText}>Limpar Todas</Text>
+            </TouchableOpacity>
+          }
+
           <FlatList
             style={{width: '100%'}}
             showsVerticalScrollIndicator={false}
             data={taskList}
             keyExtractor={item => item.description}
             renderItem={({ item }) => (
-              !item.isDone 
-                ? <Task
-                    key={item.description}
-                    task={item}
-                    onDelete={handleDeleteTask}
-                    onToggle={handleToggleIsDone}
-                  />  
-                : null
+              <Task
+                  key={item.description}
+                  task={item}
+                  onDelete={handleDeleteTask}
+                  onToggle={handleToggleIsDone}
+                />  
             )}
             ListEmptyComponent={() => (
               <Empty />
             )}
           />
-          <FlatList
-            style={{width: '100%'}}
-            showsVerticalScrollIndicator={false}
-            data={taskList}
-            keyExtractor={item => item.description}
-            renderItem={({ item }) => (
-              item.isDone 
-              ?
-                <Task
-                  key={item.description}
-                  task={item}
-                  onDelete={handleDeleteTask}
-                  onToggle={handleToggleIsDone}
-                />
-              : null
-            )}
-          />
+
         </View>
       </View>
     </SafeAreaView>

@@ -57,13 +57,23 @@ export const styles = StyleSheet.create({
   },
 
   listContainer:{
-    marginTop: 20,
-    paddingVertical: 48,
-    
-    borderTopWidth: 2,
-    borderRadius: 12,
-    borderColor: '#333333',
+    marginTop: 16,
     alignItems: 'center',
-    justifyContent: 'center'
+    flex: 1,
+    paddingBottom: 12
+  },
+
+  cleanAllTasks:{
+    alignSelf: "flex-end",
+    backgroundColor: '#333333',
+    paddingHorizontal: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 8,
+    paddingVertical: 2,
+    marginBottom: 6
+  },
+  cleanTaskText:{
+    color: '#8284fa'
   }
 })
