@@ -22,16 +22,21 @@ export function Task({task, onDelete, onToggle}: TaskProps){
   }
 
   function handleDeleteTask(task: string){
-    Alert.alert('Deletetar', `Tem certeza que deseja deletar a tarefa?`,[
+    Alert.alert('Deletetar', `Tem certeza que deseja deletar a tarefa?`,
+    [
       {
-        text: 'Sim!',
+        text: 'Excluir!',
         onPress: () => onDelete(task),
+        
       },
       {
         text: 'Cancelar!',
         style: "cancel"
       }
-    ]
+    ],
+    {
+      cancelable: true
+    }
     )
     
   }
@@ -61,6 +66,8 @@ export function Task({task, onDelete, onToggle}: TaskProps){
       <TouchableOpacity
         style={styles.button}
         onPress={() => handleDeleteTask(task.description)}
+        
+        
       >
         <Image 
           style={{width: 12.48, height: 14}}
