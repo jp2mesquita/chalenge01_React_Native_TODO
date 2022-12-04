@@ -1,11 +1,12 @@
-import { StatusBar } from 'react-native';
+// import { StatusBar } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { Home } from './src/screens/home';
 
 export default function App() {
   return (
     <>
       <StatusBar 
-        barStyle='light-content'
+        style='light'
         backgroundColor='transparent'
         translucent
       />
