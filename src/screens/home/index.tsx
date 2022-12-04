@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Image, SafeAreaView, Text, TextInput, TouchableOpacity, View} from "react-native";
+import { Alert, FlatList, Image, SafeAreaView, Text, TextInput, TouchableOpacity, View} from "react-native";
 import { Empty } from "../../components/Empty";
 import { Header } from "../../components/Header";
 import { ListHeader } from "../../components/ListHeader";
@@ -28,6 +28,15 @@ export function Home(){
   }
 
   function handleAddNewTask(){
+    if(!newTask){
+      return
+    }
+    
+    if(taskList.filter(task => task.description === newTask).length >0){
+      return(
+        Alert.alert('Este item já está em  sua lista de tarefas')
+      )
+    }
     const taskToAdd = {
       description: newTask,
       isDone: false
@@ -70,8 +79,9 @@ export function Home(){
           />
           
           <TouchableOpacity 
-            style={styles.button}
+            style={!newTask ? styles.button : styles.disableButon}
             onPress={handleAddNewTask}
+            disabled={!newTask ? true : false}
           >
             <Image 
               source={require('../../assets/plus.png')}
@@ -82,46 +92,45 @@ export function Home(){
         <ListHeader  
           createdTaksAmount={taskList.length}
           doneTasksAmount={doneTasksAmount}
-
         />
 
         <View style={styles.listContainer}>
-      
-          {taskList.length > 0 
-            ? 
-              <>
-                {
-                  taskList.map(task => {
-                    if(!task.isDone){
-                      return (
-                        <Task
-                          key={task.description}
-                          task={task}
-                          onDelete={handleDeleteTask}
-                          onToggle={handleToggleIsDone}
-                        />
-                      )
-                    }
-                  })
-                }
-                {
-                  taskList.map(task => {
-                    if(task.isDone){
-                      return (
-                        <Task
-                          key={task.description}
-                          task={task}
-                          onDelete={handleDeleteTask}
-                          onToggle={handleToggleIsDone}
-                        />
-                      )
-                    }
-                  })
-                }
-              </>
-            : <Empty />
-          }
-
+          <FlatList
+            style={{width: '100%'}}
+            showsVerticalScrollIndicator={false}
+            data={taskList}
+            keyExtractor={item => item.description}
+            renderItem={({ item }) => (
+              !item.isDone 
+                ? <Task
+                    key={item.description}
+                    task={item}
+                    onDelete={handleDeleteTask}
+                    onToggle={handleToggleIsDone}
+                  />  
+                : null
+            )}
+            ListEmptyComponent={() => (
+              <Empty />
+            )}
+          />
+          <FlatList
+            style={{width: '100%'}}
+            showsVerticalScrollIndicator={false}
+            data={taskList}
+            keyExtractor={item => item.description}
+            renderItem={({ item }) => (
+              item.isDone 
+              ?
+                <Task
+                  key={item.description}
+                  task={item}
+                  onDelete={handleDeleteTask}
+                  onToggle={handleToggleIsDone}
+                />
+              : null
+            )}
+          />
         </View>
       </View>
     </SafeAreaView>
