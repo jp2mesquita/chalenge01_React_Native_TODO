@@ -45,6 +45,17 @@ export const styles = StyleSheet.create({
     marginLeft: 8,
   },
 
+  disableButon:{
+    height: 54,
+    width: 52,
+    backgroundColor: '#4ea8de',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 6,
+    padding: 18,
+    marginLeft: 8,
+  },
+
   listContainer:{
     marginTop: 20,
     paddingVertical: 48,
