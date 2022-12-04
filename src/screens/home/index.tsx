@@ -14,8 +14,6 @@ export interface TaskListProps{
 export function Home(){
   const [ taskList, setTaskList ] = useState<TaskListProps[]>([])
   const [newTask, setNewTask] = useState<string>('')
-  // const [ doneTasksAmount, setDoneTasksAmount ] = useState(0)
-  const [ createdTaksAmount, setCreatedTasksAmount ] = useState(0)
 
   let count = 0
   taskList.forEach(task => {
@@ -35,16 +33,12 @@ export function Home(){
       isDone: false
     }
     setTaskList(prevState => [...prevState, taskToAdd])
-    setNewTask('')
-    const prevListLength = taskList.length
-    setCreatedTasksAmount(prevListLength + 1)
+    setNewTask('') 
   }
 
   function handleDeleteTask(taskToDelete: string){
     const taskListWithouDeleteOne = taskList.filter(task => task.description!=taskToDelete)
     setTaskList(taskListWithouDeleteOne)
-    const prevListLength = taskList.length
-    setCreatedTasksAmount(prevListLength - 1)
   }
 
   function handleToggleIsDone(taskToToggle: string){
@@ -86,7 +80,7 @@ export function Home(){
         </View>
 
         <ListHeader  
-          createdTaksAmount={createdTaksAmount}
+          createdTaksAmount={taskList.length}
           doneTasksAmount={doneTasksAmount}
 
         />
